@@ -1,0 +1,70 @@
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    background-color: #f5f5f5; /* Gris claro */
+  }
+  
+  .login-container, .registro-container {
+    width: 300px;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    background-color: #fff; /* Blanco */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .login-container h1, .registro-container h1 {
+    text-align: center;
+    margin-bottom: 20px;
+    color: #ffeb3b; /* Amarillo */
+  }
+  
+  .login-container label, .registro-container label {
+    display: block;
+    width: 100%;
+    margin-bottom: 5px;
+    color: #333; /* Gris oscuro */
+  }
+  
+  .login-container input, .registro-container input {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
+  
+  .login-container button, .registro-container button {
+    width: 100%;
+    padding: 10px;
+    background-color: #ffeb3b; /* Amarillo */
+    color: #333; /* Gris oscuro */
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .login-container button:hover, .registro-container button:hover {
+    background-color: #fdd835; /* Amarillo más oscuro */
+  }
+  
+  .login-container p, .registro-container p {
+    text-align: center;
+    color: #333; /* Gris oscuro */
+  }
+  
+  .login-container a, .registro-container a {
+    color: #ffeb3b; /* Amarillo */
+    text-decoration: none;
+  }
+  
+  .login-container a:hover, .registro-container a:hover {
+    text-decoration: underline;
+  }
+  

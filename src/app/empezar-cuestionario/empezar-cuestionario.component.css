@@ -1,0 +1,107 @@
+/* General container styling */
+.container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #f4f6f9; /* Light background for better readability */
+    border-radius: 0.5rem;
+  }
+  
+  /* Header styles */
+  h1 {
+    font-size: 2.5rem;
+    font-weight: bold;
+    color: #343a40; /* Dark gray */
+    margin-bottom: 20px;
+  }
+  
+  .lead {
+    font-size: 1.25rem;
+    color: #6c757d; /* Medium gray */
+    margin-bottom: 20px;
+  }
+  
+  /* Card styles for each question */
+  .card {
+    border: 1px solid #dee2e6;
+    border-radius: 0.5rem;
+    box-shadow: 0 0.125rem 0.5rem rgba(0, 0, 0, 0.1);
+    margin-bottom: 1rem;
+    background-color: #ffffff; /* White background for cards */
+    transition: box-shadow 0.3s, transform 0.3s;
+  }
+  
+  .card-header {
+    background-color: #007bff; /* Primary blue */
+    color: #ffffff; /* White text */
+    border-bottom: 1px solid #dee2e6;
+    padding: 1rem;
+    font-size: 1.25rem;
+    font-weight: bold;
+  }
+  
+  .card-body {
+    padding: 1rem;
+  }
+  
+  /* Card hover effects */
+  .card:hover {
+    box-shadow: 0 0.25rem 0.75rem rgba(0, 0, 0, 0.2);
+    transform: scale(1.02);
+  }
+  
+  /* Form check styles */
+  .form-check {
+    margin-bottom: 0.75rem;
+  }
+  
+  .form-check-input {
+    margin-right: 0.75rem;
+  }
+  
+  .form-check-label {
+    font-size: 1rem;
+    color: #495057; /* Dark gray */
+  }
+  
+  /* Button styles */
+  .btn {
+    font-size: 1rem;
+    padding: 0.75rem 1.5rem;
+    border-radius: 0.5rem;
+    font-weight: bold;
+  }
+  
+  .btn-primary {
+    background-color: #007bff; /* Primary blue */
+    border-color: #007bff;
+    color: #ffffff; /* White text */
+  }
+  
+  .btn-secondary {
+    background-color: #6c757d; /* Medium gray */
+    border-color: #6c757d;
+    color: #ffffff; /* White text */
+  }
+  
+  .btn-success {
+    background-color: #28a745; /* Success green */
+    border-color: #28a745;
+    color: #ffffff; /* White text */
+  }
+  
+  /* Button disabled state */
+  .btn:disabled {
+    opacity: 0.65;
+    cursor: not-allowed;
+  }
+  
+  /* Flex container for navigation buttons */
+  .d-flex {
+    display: flex;
+  }
+  
+  .justify-content-between {
+    justify-content: space-between;
+  }
+  

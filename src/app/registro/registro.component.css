@@ -1,0 +1,88 @@
+/* Asegura que el body ocupa toda la altura de la ventana y centra el contenedor */
+body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  margin: 0;
+  background-color: #f5f5f5; /* Gris claro */
+}
+
+/* Asegura que el contenedor principal ocupa toda la altura y anchura de la ventana */
+.centered-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh; /* Asegura que el contenedor ocupe toda la altura de la ventana */
+  width: 100%; /* Asegura que el contenedor ocupe toda la anchura de la ventana */
+}
+
+/* Estilo para los contenedores de login y registro */
+.login-container, .registro-container {
+  width: 300px;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  background-color: #fff; /* Blanco */
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Estilo para los encabezados en login y registro */
+.login-container h1, .registro-container h1 {
+  text-align: center;
+  margin-bottom: 20px;
+  color: #ffeb3b; /* Amarillo */
+}
+
+/* Estilo para las etiquetas en login y registro */
+.login-container label, .registro-container label {
+  display: block;
+  width: 100%;
+  margin-bottom: 5px;
+  color: #333; /* Gris oscuro */
+}
+
+/* Estilo para los campos de entrada en login y registro */
+.login-container input, .registro-container input {
+  width: 100%;
+  padding: 8px;
+  margin-bottom: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+/* Estilo para los botones en login y registro */
+.login-container button, .registro-container button {
+  width: 100%;
+  padding: 10px;
+  background-color: #ffeb3b; /* Amarillo */
+  color: #333; /* Gris oscuro */
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+/* Estilo para el estado hover de los botones */
+.login-container button:hover, .registro-container button:hover {
+  background-color: #fdd835; /* Amarillo más oscuro */
+}
+
+/* Estilo para los párrafos en login y registro */
+.login-container p, .registro-container p {
+  text-align: center;
+  color: #333; /* Gris oscuro */
+}
+
+/* Estilo para los enlaces en login y registro */
+.login-container a, .registro-container a {
+  color: #ffeb3b; /* Amarillo */
+  text-decoration: none;
+}
+
+/* Estilo para el estado hover de los enlaces */
+.login-container a:hover, .registro-container a:hover {
+  text-decoration: underline;
+}

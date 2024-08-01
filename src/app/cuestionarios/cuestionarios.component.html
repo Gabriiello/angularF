@@ -1,0 +1,147 @@
+<div class="container">
+    <h1>Administrar Cuestionarios</h1>
+  
+    <div class="add-cuestionario">
+      <h2>Agregar Nuevo Cuestionario</h2>
+      <form (ngSubmit)="addCuestionario()">
+        <div class="form-group">
+          <label for="titulo">Título:</label>
+          <input type="text" id="titulo" [(ngModel)]="newCuestionario.titulo" name="titulo" required>
+        </div>
+        <div class="form-group">
+          <label for="descripcion">Descripción:</label>
+          <input type="text" id="descripcion" [(ngModel)]="newCuestionario.descripcion" name="descripcion" required>
+        </div>
+        <button type="submit" class="btn btn-primary">Agregar Cuestionario</button>
+      </form>
+    </div>
+  
+    <h2>Lista de Cuestionarios</h2>
+    <table class="table table-bordered">
+      <thead>
+        <tr>
+          <th>Título</th>
+          <th>Descripción</th>
+          <th>Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let cuestionario of cuestionarios">
+          <td>{{ cuestionario.titulo }}</td>
+          <td>{{ cuestionario.descripcion }}</td>
+          <td>
+            <button (click)="editCuestionario(cuestionario)" class="btn btn-warning">Modificar</button>
+            <button (click)="deleteCuestionario(cuestionario.id)" class="btn btn-danger">Eliminar</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  
+    <!-- Modal para editar cuestionario -->
+    <div *ngIf="showEditModal" class="modal">
+      <div class="modal-content">
+        <span class="close" (click)="closeEditModal()">&times;</span>
+        <h2>Editar Cuestionario</h2>
+        <form (ngSubmit)="updateCuestionario()">
+          <div class="form-group">
+            <label for="editTitulo">Título:</label>
+            <input type="text" id="editTitulo" [(ngModel)]="selectedCuestionario.titulo" name="editTitulo" required>
+          </div>
+          <div class="form-group">
+            <label for="editDescripcion">Descripción:</label>
+            <input type="text" id="editDescripcion" [(ngModel)]="selectedCuestionario.descripcion" name="editDescripcion" required>
+          </div>
+          <button type="submit" class="btn btn-primary">Guardar Cambios</button>
+        </form>
+  
+        <h3>Preguntas del Cuestionario</h3>
+        <button (click)="showAddPreguntaModal = true" class="btn btn-success">Agregar Pregunta</button>
+        <table class="table table-bordered mt-3">
+          <thead>
+            <tr>
+              <th>Pregunta</th>
+              <th>Acciones</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let pregunta of preguntas">
+              <td>{{ pregunta.texto }}</td>
+              <td>
+                <button (click)="editPregunta(pregunta)" class="btn btn-warning">Modificar</button>
+                <button (click)="deletePregunta(pregunta.id)" class="btn btn-danger">Eliminar</button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  
+    <!-- Modal para agregar nueva pregunta -->
+<div *ngIf="showAddPreguntaModal" class="modal">
+    <div class="modal-content">
+      <span class="close" (click)="closeAddPreguntaModal()">&times;</span>
+      <h2>Agregar Nueva Pregunta</h2>
+      <form (ngSubmit)="addPregunta()">
+        <div class="form-group">
+          <label for="nuevaPregunta">Nueva Pregunta:</label>
+          <input type="text" id="nuevaPregunta" [(ngModel)]="newPregunta.texto" name="nuevaPregunta" required>
+        </div>
+        <button type="submit" class="btn btn-primary">Agregar Pregunta</button>
+      </form>
+    </div>
+  </div>
+  
+    <!-- Modal para editar pregunta -->
+    <div *ngIf="showEditPreguntaModal" class="modal">
+      <div class="modal-content">
+        <span class="close" (click)="closeEditPreguntaModal()">&times;</span>
+        <h2>Editar Pregunta</h2>
+        <form (ngSubmit)="updatePregunta()">
+          <div class="form-group">
+            <label for="editPreguntaTexto">Pregunta:</label>
+            <input type="text" id="editPreguntaTexto" [(ngModel)]="selectedPregunta.texto" name="editPreguntaTexto" required>
+          </div>
+          <button type="submit" class="btn btn-primary">Guardar Cambios</button>
+        </form>
+  
+        <h3>Respuestas de la Pregunta</h3>
+        <button (click)="showAddRespuestaModal = true" class="btn btn-success">Agregar Respuesta</button>
+        <table class="table table-bordered mt-3">
+          <thead>
+            <tr>
+              <th>Respuesta</th>
+              <th>Correcta</th>
+              <th>Acciones</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let respuesta of respuestas">
+              <td>{{ respuesta.texto }}</td>
+              <td>{{ respuesta.esCorrecta ? 'Sí' : 'No' }}</td>
+              <td>
+                <button (click)="deleteRespuesta(respuesta.id)" class="btn btn-danger">Eliminar</button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  
+   <!-- Modal para agregar nueva respuesta -->
+<div *ngIf="showAddRespuestaModal" class="modal">
+    <div class="modal-content">
+      <span class="close" (click)="closeAddRespuestaModal()">&times;</span>
+      <h2>Agregar Nueva Respuesta</h2>
+      <form (ngSubmit)="addRespuesta()">
+        <div class="form-group">
+          <label for="respuestaTexto">Texto:</label>
+          <input type="text" id="respuestaTexto" [(ngModel)]="newRespuesta.texto" name="respuestaTexto" required>
+        </div>
+        <div class="form-group">
+          <label for="respuestaCorrecta">¿Es Correcta?</label>
+          <input type="checkbox" id="respuestaCorrecta" [(ngModel)]="newRespuesta.esCorrecta" name="respuestaCorrecta">
+        </div>
+        <button type="submit" class="btn btn-primary">Agregar Respuesta</button>
+      </form>
+    </div>
+  </div>

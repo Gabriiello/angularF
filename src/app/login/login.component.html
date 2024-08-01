@@ -1,0 +1,17 @@
+
+<div class="centered-container">
+  <div class="login-container">
+    <!-- Tu formulario de login aquí -->
+    <h1>Iniciar Sesión</h1>
+    <form (ngSubmit)="onSubmit(loginForm)" #loginForm="ngForm">
+        <label for="mail">Email</label>
+        <input type="email" id="mail" name="mail" ngModel required>
+  
+        <label for="password">Contraseña</label>
+        <input type="password" id="password" name="password" ngModel required>
+  
+        <button type="submit">Ingresar</button>
+    </form>
+    <p>¿No tienes una cuenta? <button (click)="goToRegistro()">Regístrate</button></p>
+  </div>
+</div>

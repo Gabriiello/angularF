@@ -1,0 +1,74 @@
+<div class="container">
+  <h2>Gestión de Usuarios</h2>
+  <table class="table">
+    <thead>
+      <tr>
+        <th>Nombre</th>
+        <th>Email</th>
+        <th>Rol</th>
+        <th>Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let usuario of usuarios">
+        <td>{{ usuario.nombre }}</td>
+        <td>{{ usuario.email }}</td>
+        <td>{{ usuario.rol }}</td>
+        <td>
+          <button class="btn btn-primary" (click)="editUsuario(usuario)">Modificar</button>
+          <button class="btn btn-danger" (click)="confirmDelete(usuario.id)">Eliminar</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <button class="btn btn-success" (click)="showAddModal = true">Agregar Usuario</button>
+</div>
+
+<!-- Modal para editar usuario -->
+<div *ngIf="showEditModal" class="modal">
+  <div class="modal-content">
+    <span class="close" (click)="closeEditModal()">&times;</span>
+    <h3>Editar Usuario</h3>
+    <form (ngSubmit)="updateUsuario()">
+      <label for="nombre">Nombre:</label>
+      <input id="nombre" [(ngModel)]="selectedUsuario.nombre" name="nombre" required>
+
+      <label for="email">Email:</label>
+      <input id="email" [(ngModel)]="selectedUsuario.email" name="email" required>
+
+      <label for="rol">Rol:</label>
+      <select id="rol" [(ngModel)]="selectedUsuario.rol" name="rol" required>
+        <option value="ADMIN">Admin</option>
+        <option value="USUARIO">Usuario</option>
+      </select>
+
+      <button class="btn btn-primary" type="submit">Guardar Cambios</button>
+    </form>
+  </div>
+</div>
+
+<!-- Modal para agregar nuevo usuario -->
+<div *ngIf="showAddModal" class="modal">
+  <div class="modal-content">
+    <span class="close" (click)="closeAddModal()">&times;</span>
+    <h3>Agregar Nuevo Usuario</h3>
+    <form (ngSubmit)="addUsuario()">
+      <label for="nombre">Nombre:</label>
+      <input id="nombre" [(ngModel)]="newUsuario.nombre" name="nombre" required>
+
+      <label for="email">Email:</label>
+      <input id="email" [(ngModel)]="newUsuario.email" name="email" required>
+
+      <label for="contrasena">Contraseña:</label>
+      <input id="contrasena" [(ngModel)]="newUsuario.contrasena" name="contrasena" required type="password">
+
+      <label for="rol">Rol:</label>
+      <select id="rol" [(ngModel)]="newUsuario.rol" name="rol" required>
+        <option value="ADMIN">Admin</option>
+        <option value="USUARIO">Usuario</option>
+      </select>
+
+      <button class="btn btn-success" type="submit">Agregar Usuario</button>
+    </form>
+  </div>
+</div>

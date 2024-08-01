@@ -1,0 +1,11 @@
+<div class="container">
+    <h1>Cuestionarios Disponibles</h1>
+    <div class="cuestionarios-grid">
+      <div class="cuestionario-cubo" *ngFor="let cuestionario of cuestionarios">
+        <h3>{{ cuestionario.titulo }}</h3>
+        <p>{{ cuestionario.descripcion }}</p>
+        <button (click)="empezarCuestionario(cuestionario.id)" class="btn btn-primary">Empezar Cuestionario</button>
+      </div>
+    </div>
+  </div>
+  
