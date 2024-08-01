@@ -6,7 +6,7 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class AuthService {
-  private apiUrl = 'http://localhost:8080/api/auth'; // Cambia la URL si es necesario
+  private apiUrl = 'https://optimistic-forgiveness-production.up.railway.app/api/auth'; // Cambia la URL si es necesario
 
   constructor(private http: HttpClient) {}
 

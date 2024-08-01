@@ -22,7 +22,7 @@ export class RegistroComponent {
         rol: 'USUARIO'
       };
 
-      this.http.post('http://localhost:8080/api/auth/register', nuevoUsuario).subscribe(response => {
+      this.http.post('https://optimistic-forgiveness-production.up.railway.app/api/auth/register', nuevoUsuario).subscribe(response => {
         alert('Usuario registrado con éxito.');
         this.router.navigate(['/login']); // Redirige al login
       }, error => {

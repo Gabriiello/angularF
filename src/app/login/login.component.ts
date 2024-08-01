@@ -20,7 +20,7 @@ export class LoginComponent {
         contraseña: loginForm.value.password
       };
 
-      this.http.post<any>('http://localhost:8080/api/auth/login', usuario).subscribe(response => {
+      this.http.post<any>('https://optimistic-forgiveness-production.up.railway.app/api/auth/login', usuario).subscribe(response => {
         // Suponiendo que el servidor devuelve el rol en la respuesta
         const rol = response.rol; // Ajusta esto según cómo recibas el rol
 

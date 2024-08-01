@@ -29,7 +29,7 @@ export class UsuariosComponent implements OnInit {
   }
 
   loadUsuarios() {
-    this.http.get<any[]>('http://localhost:8080/api/usuarios')
+    this.http.get<any[]>('https://optimistic-forgiveness-production.up.railway.app/api/usuarios')
       .subscribe(response => {
         this.usuarios = response;
       });
@@ -37,7 +37,7 @@ export class UsuariosComponent implements OnInit {
 
   confirmDelete(id: number) {
     if (confirm('¿Estás seguro de que quieres eliminar este usuario?')) {
-      this.http.delete(`http://localhost:8080/api/usuarios/${id}`)
+      this.http.delete(`https://optimistic-forgiveness-production.up.railway.app/api/usuarios/${id}`)
         .subscribe(() => {
           this.loadUsuarios();
         });
@@ -54,7 +54,7 @@ export class UsuariosComponent implements OnInit {
   }
 
   updateUsuario() {
-    this.http.put(`http://localhost:8080/api/usuarios/${this.selectedUsuario.id}`, this.selectedUsuario)
+    this.http.put(`https://optimistic-forgiveness-production.up.railway.app/usuarios/${this.selectedUsuario.id}`, this.selectedUsuario)
       .subscribe(() => {
         this.loadUsuarios();
         this.closeEditModal();
@@ -62,7 +62,7 @@ export class UsuariosComponent implements OnInit {
   }
 
   addUsuario() {
-    this.http.post('http://localhost:8080/api/usuarios', this.newUsuario)
+    this.http.post('https://optimistic-forgiveness-production.up.railway.app/usuarios', this.newUsuario)
       .subscribe(() => {
         this.loadUsuarios();
         this.closeAddModal();

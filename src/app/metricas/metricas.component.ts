@@ -64,7 +64,7 @@ export class MetricasComponent implements OnInit {
   }
 
   loadMetrics(): void {
-    this.http.get<any[]>('http://localhost:8080/api/metrics').subscribe(data => {
+    this.http.get<any[]>('https://optimistic-forgiveness-production.up.railway.app/api/metrics').subscribe(data => {
       this.processData(data);
     });
   }

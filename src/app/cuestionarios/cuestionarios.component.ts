@@ -31,13 +31,13 @@ export class CuestionariosComponent implements OnInit {
   }
 
   loadCuestionarios() {
-    this.http.get<any[]>('http://localhost:8080/api/cuestionarios').subscribe(data => {
+    this.http.get<any[]>('https://optimistic-forgiveness-production.up.railway.app/api/cuestionarios').subscribe(data => {
       this.cuestionarios = data;
     });
   }
 
   addCuestionario() {
-    this.http.post('http://localhost:8080/api/cuestionarios', this.newCuestionario).subscribe(() => {
+    this.http.post('https://optimistic-forgiveness-production.up.railway.app/cuestionarios', this.newCuestionario).subscribe(() => {
       this.loadCuestionarios();
       this.newCuestionario = {};
     });
@@ -50,7 +50,7 @@ export class CuestionariosComponent implements OnInit {
   }
 
   updateCuestionario() {
-    this.http.put(`http://localhost:8080/api/cuestionarios/${this.selectedCuestionario.id}`, this.selectedCuestionario).subscribe(() => {
+    this.http.put(`https://optimistic-forgiveness-production.up.railway.app/cuestionarios/${this.selectedCuestionario.id}`, this.selectedCuestionario).subscribe(() => {
       this.loadCuestionarios();
       this.showEditModal = false;
     });
@@ -58,14 +58,14 @@ export class CuestionariosComponent implements OnInit {
 
   deleteCuestionario(id: number) {
     if (confirm('¿Está seguro de que desea eliminar este cuestionario?')) {
-      this.http.delete(`http://localhost:8080/api/cuestionarios/${id}`).subscribe(() => {
+      this.http.delete(`https://optimistic-forgiveness-production.up.railway.app/api/cuestionarios/${id}`).subscribe(() => {
         this.loadCuestionarios();
       });
     }
   }
 
   loadPreguntas(cuestionarioId: number) {
-    this.http.get<any[]>(`http://localhost:8080/api/preguntas/cuestionario/${cuestionarioId}`).subscribe(data => {
+    this.http.get<any[]>(`https://optimistic-forgiveness-production.up.railway.app/api/preguntas/cuestionario/${cuestionarioId}`).subscribe(data => {
       this.preguntas = data;
     });
   }
@@ -77,7 +77,7 @@ export class CuestionariosComponent implements OnInit {
     }
     this.newPregunta.cuestionario = this.selectedCuestionario; // Incluye el cuestionario completo
     console.log('Cuestionario completo:', this.newPregunta.cuestionario);
-    this.http.post('http://localhost:8080/api/preguntas', this.newPregunta).subscribe(() => {
+    this.http.post('https://optimistic-forgiveness-production.up.railway.app/api/preguntas', this.newPregunta).subscribe(() => {
       this.loadPreguntas(this.selectedCuestionario.id);
       this.newPregunta = {};
       this.showAddPreguntaModal = false;
@@ -90,7 +90,7 @@ export class CuestionariosComponent implements OnInit {
   }
 
   updatePregunta() {
-    this.http.put(`http://localhost:8080/api/preguntas/${this.selectedPregunta.id}`, this.selectedPregunta).subscribe(() => {
+    this.http.put(`https://optimistic-forgiveness-production.up.railway.app/api/preguntas/${this.selectedPregunta.id}`, this.selectedPregunta).subscribe(() => {
       this.loadPreguntas(this.selectedCuestionario.id);
       this.showEditPreguntaModal = false;
     });
@@ -98,7 +98,7 @@ export class CuestionariosComponent implements OnInit {
 
   deletePregunta(id: number) {
     if (confirm('¿Está seguro de que desea eliminar esta pregunta?')) {
-      this.http.delete(`http://localhost:8080/api/preguntas/${id}`).subscribe(() => {
+      this.http.delete(`https://optimistic-forgiveness-production.up.railway.app/api/preguntas/${id}`).subscribe(() => {
         this.loadPreguntas(this.selectedCuestionario.id);
       });
     }
@@ -119,7 +119,7 @@ export class CuestionariosComponent implements OnInit {
     this.newRespuesta.pregunta = this.selectedPregunta; // Incluye la pregunta completa
     console.log('Pregunta completa:', this.newRespuesta.pregunta);
     console.log('Nueva respuesta:', this.newRespuesta); // Verifica si esCorrecta está correctamente asignado
-    this.http.post('http://localhost:8080/api/respuestas', this.newRespuesta).subscribe(() => {
+    this.http.post('https://optimistic-forgiveness-production.up.railway.app/api/respuestas', this.newRespuesta).subscribe(() => {
       this.loadRespuestas(this.selectedPregunta.id);
       this.newRespuesta = {};
       this.showAddRespuestaModal = false;
@@ -127,14 +127,14 @@ export class CuestionariosComponent implements OnInit {
   }
 
   loadRespuestas(preguntaId: number) {
-    this.http.get<any[]>(`http://localhost:8080/api/respuestas/pregunta/${preguntaId}`).subscribe(data => {
+    this.http.get<any[]>(`https://optimistic-forgiveness-production.up.railway.app/api/respuestas/pregunta/${preguntaId}`).subscribe(data => {
       this.respuestas = data;
     });
   }
 
   deleteRespuesta(id: number) {
     if (confirm('¿Está seguro de que desea eliminar esta respuesta?')) {
-      this.http.delete(`http://localhost:8080/api/respuestas/${id}`).subscribe(() => {
+      this.http.delete(`https://optimistic-forgiveness-production.up.railway.app/respuestas/${id}`).subscribe(() => {
         this.loadRespuestas(this.selectedPregunta.id);
       });
     }

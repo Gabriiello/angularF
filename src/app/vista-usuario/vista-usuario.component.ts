@@ -20,7 +20,7 @@ export class VistaUsuarioComponent implements OnInit {
   }
 
   loadCuestionarios() {
-    this.http.get<any[]>('http://localhost:8080/api/cuestionarios').subscribe(data => {
+    this.http.get<any[]>('https://optimistic-forgiveness-production.up.railway.app/api/cuestionarios').subscribe(data => {
       this.cuestionarios = data;
     });
   }

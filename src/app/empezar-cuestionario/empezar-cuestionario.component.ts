@@ -29,7 +29,7 @@ export class EmpezarCuestionarioComponent implements OnInit {
   }
 
   loadCuestionario() {
-    this.http.get<any>(`http://localhost:8080/api/cuestionarios/${this.cuestionarioId}`).subscribe(data => {
+    this.http.get<any>(`https://optimistic-forgiveness-production.up.railway.app/api/cuestionarios/${this.cuestionarioId}`).subscribe(data => {
       this.cuestionario = data;
       this.cuestionario.preguntas.forEach((pregunta: any) => {
         pregunta.respuestas.forEach((respuesta: any) => {
@@ -74,7 +74,7 @@ export class EmpezarCuestionarioComponent implements OnInit {
 
     alert(`Número de respuestas correctas: ${respuestasCorrectas}`);
 
-    this.http.post('http://localhost:8080/api/respuestasU', respuestas).subscribe(response => {
+    this.http.post('https://optimistic-forgiveness-production.up.railway.app/api/respuestasU', respuestas).subscribe(response => {
       console.log('Respuestas guardadas con éxito', response);
     }, error => {
       console.error('Error al guardar las respuestas', error);
