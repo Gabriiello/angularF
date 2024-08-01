@@ -1,0 +1,11 @@
+{
+  "routes": [
+    "/admin",
+    "/admin/cuestionarios",
+    "/admin/metricas",
+    "/admin/usuarios",
+    "/login",
+    "/registro",
+    "/vista-usuario"
+  ]
+}
