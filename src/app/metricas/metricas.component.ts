@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { BaseChartDirective } from 'ng2-charts';
 import { Chart, registerables, ChartOptions, ChartData, ChartDataset } from 'chart.js';
 import { HttpClient } from '@angular/common/http';
+import { environment } from '../../environments/environment';
 
 // Registro de los componentes de Chart.js
 Chart.register(...registerables);
@@ -64,7 +65,7 @@ export class MetricasComponent implements OnInit {
   }
 
   loadMetrics(): void {
-    this.http.get<any[]>('https://optimistic-forgiveness-production.up.railway.app/api/metrics').subscribe(data => {
+    this.http.get<any[]>(`${environment.apiUrl}/metrics`).subscribe(data => {
       this.processData(data);
     });
   }

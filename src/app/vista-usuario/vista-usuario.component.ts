@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';  // Importa Router
+import { environment } from '../../environments/environment';
 
 @Component({
   selector: 'app-vista-usuario',
@@ -20,7 +21,7 @@ export class VistaUsuarioComponent implements OnInit {
   }
 
   loadCuestionarios() {
-    this.http.get<any[]>('https://optimistic-forgiveness-production.up.railway.app/api/cuestionarios').subscribe(data => {
+    this.http.get<any[]>(`${environment.apiUrl}/cuestionarios`).subscribe(data => {
       this.cuestionarios = data;
     });
   }

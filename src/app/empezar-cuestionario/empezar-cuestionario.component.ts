@@ -3,6 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { environment } from '../../environments/environment';
 
 @Component({
   selector: 'app-empezar-cuestionario',
@@ -29,7 +30,7 @@ export class EmpezarCuestionarioComponent implements OnInit {
   }
 
   loadCuestionario() {
-    this.http.get<any>(`https://optimistic-forgiveness-production.up.railway.app/api/cuestionarios/${this.cuestionarioId}`).subscribe(data => {
+    this.http.get<any>(`${environment.apiUrl}/cuestionarios/${this.cuestionarioId}`).subscribe(data => {
       this.cuestionario = data;
       this.cuestionario.preguntas.forEach((pregunta: any) => {
         pregunta.respuestas.forEach((respuesta: any) => {
@@ -74,7 +75,7 @@ export class EmpezarCuestionarioComponent implements OnInit {
 
     alert(`Número de respuestas correctas: ${respuestasCorrectas}`);
 
-    this.http.post('https://optimistic-forgiveness-production.up.railway.app/api/respuestasU', respuestas).subscribe(response => {
+    this.http.post(`${environment.apiUrl}/respuestasU`, respuestas).subscribe(response => {
       console.log('Respuestas guardadas con éxito', response);
     }, error => {
       console.error('Error al guardar las respuestas', error);

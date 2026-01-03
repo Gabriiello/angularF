@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router'; // Importa Router
 import { FormsModule } from '@angular/forms';
+import { environment } from '../../environments/environment';
 
 @Component({
   selector: 'app-login',
@@ -20,7 +21,7 @@ export class LoginComponent {
         contraseña: loginForm.value.password
       };
 
-      this.http.post<any>('https://optimistic-forgiveness-production.up.railway.app/api/auth/login', usuario).subscribe(response => {
+      this.http.post<any>(`${environment.apiUrl}/auth/login`, usuario).subscribe(response => {
         // Suponiendo que el servidor devuelve el rol en la respuesta
         const rol = response.rol; // Ajusta esto según cómo recibas el rol
 

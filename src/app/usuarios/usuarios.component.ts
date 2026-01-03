@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { environment } from '../../environments/environment';
 
 @Component({
   selector: 'app-usuarios',
@@ -29,7 +30,7 @@ export class UsuariosComponent implements OnInit {
   }
 
   loadUsuarios() {
-    this.http.get<any[]>('https://optimistic-forgiveness-production.up.railway.app/api/usuarios')
+    this.http.get<any[]>(`${environment.apiUrl}/auth/register/usuarios`)
       .subscribe(response => {
         this.usuarios = response;
       });
@@ -37,7 +38,7 @@ export class UsuariosComponent implements OnInit {
 
   confirmDelete(id: number) {
     if (confirm('¿Estás seguro de que quieres eliminar este usuario?')) {
-      this.http.delete(`https://optimistic-forgiveness-production.up.railway.app/api/usuarios/${id}`)
+      this.http.delete(`${environment.apiUrl}/auth/register/usuarios/${id}`)
         .subscribe(() => {
           this.loadUsuarios();
         });
@@ -54,7 +55,7 @@ export class UsuariosComponent implements OnInit {
   }
 
   updateUsuario() {
-    this.http.put(`https://optimistic-forgiveness-production.up.railway.app/usuarios/${this.selectedUsuario.id}`, this.selectedUsuario)
+    this.http.put(`${environment.apiUrl}/usuarios/${this.selectedUsuario.id}`, this.selectedUsuario)
       .subscribe(() => {
         this.loadUsuarios();
         this.closeEditModal();
@@ -62,7 +63,7 @@ export class UsuariosComponent implements OnInit {
   }
 
   addUsuario() {
-    this.http.post('https://optimistic-forgiveness-production.up.railway.app/usuarios', this.newUsuario)
+    this.http.post(`${environment.apiUrl}/usuarios`, this.newUsuario)
       .subscribe(() => {
         this.loadUsuarios();
         this.closeAddModal();

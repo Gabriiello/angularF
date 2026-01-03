@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router'; // Importa Router
 import { FormsModule } from '@angular/forms'; // Asegúrate de importar FormsModule
+import { environment } from '../../environments/environment';
 
 @Component({
   selector: 'app-registro',
@@ -22,7 +23,7 @@ export class RegistroComponent {
         rol: 'USUARIO'
       };
 
-      this.http.post('https://optimistic-forgiveness-production.up.railway.app/api/auth/register', nuevoUsuario).subscribe(response => {
+      this.http.post(`${environment.apiUrl}/auth/register`, nuevoUsuario).subscribe(response => {
         alert('Usuario registrado con éxito.');
         this.router.navigate(['/login']); // Redirige al login
       }, error => {
