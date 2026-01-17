@@ -1,0 +1,123 @@
+<div class="landing-container">
+  <!-- Hero Section -->
+  <section class="hero">
+    <div class="hero-background">
+      <div class="gradient-orb orb-1"></div>
+      <div class="gradient-orb orb-2"></div>
+      <div class="gradient-orb orb-3"></div>
+    </div>
+    
+    <nav class="navbar">
+      <div class="logo">
+        <span class="logo-icon">📚</span>
+        <span class="logo-text">QuizMaster</span>
+      </div>
+      <button class="btn-login" (click)="navigateToLogin()">
+        Iniciar Sesión
+      </button>
+    </nav>
+
+    <div class="hero-content">
+      <h1 class="hero-title">
+        <span class="title-line">Evalúa</span>
+        <span class="title-line highlight">Aprende</span>
+        <span class="title-line">Mejora</span>
+      </h1>
+      <p class="hero-subtitle">
+        La plataforma definitiva para crear, administrar y realizar cuestionarios interactivos.
+        Perfecta para educadores, estudiantes y organizaciones.
+      </p>
+      <div class="hero-actions">
+        <button class="btn-primary" (click)="navigateToLogin()">
+          Comenzar Ahora
+          <span class="btn-arrow">→</span>
+        </button>
+        <button class="btn-secondary" (click)="scrollToFeatures()">
+          Explorar Características
+        </button>
+      </div>
+    </div>
+
+    <div class="scroll-indicator">
+      <div class="mouse">
+        <div class="wheel"></div>
+      </div>
+      <span>Desliza para descubrir</span>
+    </div>
+  </section>
+
+  <!-- Features Section -->
+  <section id="features" class="features">
+    <div class="section-header">
+      <h2 class="section-title">¿Qué Hace QuizMaster?</h2>
+      <p class="section-description">
+        Una solución completa para gestionar evaluaciones y medir el progreso de aprendizaje
+      </p>
+    </div>
+
+    <div class="features-grid">
+      <div class="feature-card" *ngFor="let feature of features; let i = index" 
+           [style.animation-delay.ms]="i * 100">
+        <div class="feature-icon">{{ feature.icon }}</div>
+        <h3 class="feature-title">{{ feature.title }}</h3>
+        <p class="feature-description">{{ feature.description }}</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- How It Works Section -->
+  <section class="how-it-works">
+    <div class="section-header">
+      <h2 class="section-title">Cómo Funciona</h2>
+    </div>
+
+    <div class="steps">
+      <div class="step">
+        <div class="step-number">01</div>
+        <h3 class="step-title">Regístrate</h3>
+        <p class="step-description">Crea tu cuenta en segundos y accede a todas las funcionalidades</p>
+      </div>
+
+      <div class="step-connector"></div>
+
+      <div class="step">
+        <div class="step-number">02</div>
+        <h3 class="step-title">Crea o Resuelve</h3>
+        <p class="step-description">Los administradores crean cuestionarios, los usuarios los resuelven</p>
+      </div>
+
+      <div class="step-connector"></div>
+
+      <div class="step">
+        <div class="step-number">03</div>
+        <h3 class="step-title">Analiza Resultados</h3>
+        <p class="step-description">Visualiza métricas detalladas y mejora continuamente</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA Section -->
+  <section class="cta">
+    <div class="cta-content">
+      <h2 class="cta-title">¿Listo para Comenzar?</h2>
+      <p class="cta-description">
+        Únete a miles de usuarios que ya están mejorando su proceso de aprendizaje
+      </p>
+      <button class="btn-cta" (click)="navigateToLogin()">
+        Iniciar Sesión Ahora
+        <span class="btn-arrow">→</span>
+      </button>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="footer-content">
+      <div class="footer-logo">
+        <span class="logo-icon">📚</span>
+        <span class="logo-text">QuizMaster</span>
+      </div>
+      <p class="footer-text">© 2025 QuizMaster. Todos los derechos reservados.</p>
+    </div>
+  </footer>
+</div>

@@ -1,74 +1,268 @@
-<div class="container">
-  <h2>Gestión de Usuarios</h2>
-  <table class="table">
-    <thead>
-      <tr>
-        <th>Nombre</th>
-        <th>Email</th>
-        <th>Rol</th>
-        <th>Acciones</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let usuario of usuarios">
-        <td>{{ usuario.nombre }}</td>
-        <td>{{ usuario.email }}</td>
-        <td>{{ usuario.rol }}</td>
-        <td>
-          <button class="btn btn-primary" (click)="editUsuario(usuario)">Modificar</button>
-          <button class="btn btn-danger" (click)="confirmDelete(usuario.id)">Eliminar</button>
-        </td>
-      </tr>
-    </tbody>
-  </table>
-  <button class="btn btn-success" (click)="showAddModal = true">Agregar Usuario</button>
-</div>
+<div class="usuarios-wrapper">
+  <!-- Navbar -->
+  <nav class="usuarios-navbar">
+    <div class="navbar-logo">
+      <span class="navbar-logo-icon">👥</span>
+      <span class="navbar-logo-text">Gestión de Usuarios</span>
+    </div>
+    <button class="btn-back" routerLink="/admin">
+      <span>←</span>
+      <span>Volver al Panel</span>
+    </button>
+  </nav>
 
-<!-- Modal para editar usuario -->
-<div *ngIf="showEditModal" class="modal">
-  <div class="modal-content">
-    <span class="close" (click)="closeEditModal()">&times;</span>
-    <h3>Editar Usuario</h3>
-    <form (ngSubmit)="updateUsuario()">
-      <label for="nombre">Nombre:</label>
-      <input id="nombre" [(ngModel)]="selectedUsuario.nombre" name="nombre" required>
+  <div class="container">
+    <!-- Page Header -->
+    <div class="page-header">
+      <h1 class="page-title">Administrar Usuarios</h1>
+      <p class="page-subtitle">Gestiona cuentas, roles y permisos de todos los usuarios</p>
+    </div>
 
-      <label for="email">Email:</label>
-      <input id="email" [(ngModel)]="selectedUsuario.email" name="email" required>
+    <!-- Stats Grid -->
+    <div class="stats-grid">
+      <div class="stat-card">
+        <div class="stat-header">
+          <span class="stat-icon">👤</span>
+        </div>
+        <div class="stat-content">
+          <div class="stat-value">{{ usuarios.length }}</div>
+          <div class="stat-label">Total Usuarios</div>
+        </div>
+      </div>
 
-      <label for="rol">Rol:</label>
-      <select id="rol" [(ngModel)]="selectedUsuario.rol" name="rol" required>
-        <option value="ADMIN">Admin</option>
-        <option value="USUARIO">Usuario</option>
-      </select>
+      <div class="stat-card" style="border-left-color: var(--secondary);">
+        <div class="stat-header">
+          <span class="stat-icon">👑</span>
+        </div>
+        <div class="stat-content">
+          <div class="stat-value">{{ getAdminCount() }}</div>
+          <div class="stat-label">Administradores</div>
+        </div>
+      </div>
 
-      <button class="btn btn-primary" type="submit">Guardar Cambios</button>
-    </form>
+      <div class="stat-card" style="border-left-color: var(--success);">
+        <div class="stat-header">
+          <span class="stat-icon">📚</span>
+        </div>
+        <div class="stat-content">
+          <div class="stat-value">{{ getUserCount() }}</div>
+          <div class="stat-label">Estudiantes</div>
+        </div>
+      </div>
+
+      <div class="stat-card" style="border-left-color: var(--warning);">
+        <div class="stat-header">
+          <span class="stat-icon">✨</span>
+        </div>
+        <div class="stat-content">
+          <div class="stat-value">{{ getActiveUsersCount() }}</div>
+          <div class="stat-label">Activos Hoy</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Table Section -->
+    <div class="table-section">
+      <div class="table-header">
+        <h2 class="table-title">
+          <span class="title-icon">📋</span>
+          <span>Lista de Usuarios</span>
+        </h2>
+        <div class="search-filter">
+          <div class="search-box">
+            <span class="search-icon">🔍</span>
+            <input
+              type="text"
+              class="search-input"
+              placeholder="Buscar usuarios..."
+              [(ngModel)]="searchTerm"
+              (input)="filterUsuarios()"
+            />
+          </div>
+          <button class="btn btn-add" (click)="showAddModal = true">
+            <span>➕</span>
+            <span>Nuevo Usuario</span>
+          </button>
+        </div>
+      </div>
+
+      <div class="table-container">
+        <table class="table">
+          <thead>
+            <tr>
+              <th>Usuario</th>
+              <th>Rol</th>
+              <th>Estado</th>
+              <th>Acciones</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let usuario of filteredUsuarios">
+              <td>
+                <div class="user-info">
+                  <div class="user-avatar">{{ getInitials(usuario.nombre) }}</div>
+                  <div class="user-details">
+                    <div class="user-name">{{ usuario.nombre }}</div>
+                    <div class="user-email">{{ usuario.email }}</div>
+                  </div>
+                </div>
+              </td>
+              <td>
+                <span class="role-badge" [ngClass]="{
+                  'role-admin': usuario.rol === 'ADMIN',
+                  'role-usuario': usuario.rol === 'USUARIO'
+                }">
+                  {{ usuario.rol === 'ADMIN' ? '👑 Administrador' : '📚 Estudiante' }}
+                </span>
+              </td>
+              <td>
+                <span style="color: var(--success); font-weight: 600;">● Activo</span>
+              </td>
+              <td>
+                <div class="table-actions">
+                  <button
+                    class="btn-icon btn-edit"
+                    (click)="editUsuario(usuario)"
+                    title="Editar"
+                  >
+                    ✏️
+                  </button>
+                  <button
+                    class="btn-icon btn-delete"
+                    (click)="confirmDelete(usuario.id)"
+                    title="Eliminar"
+                  >
+                    🗑️
+                  </button>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
   </div>
-</div>
 
-<!-- Modal para agregar nuevo usuario -->
-<div *ngIf="showAddModal" class="modal">
-  <div class="modal-content">
-    <span class="close" (click)="closeAddModal()">&times;</span>
-    <h3>Agregar Nuevo Usuario</h3>
-    <form (ngSubmit)="addUsuario()">
-      <label for="nombre">Nombre:</label>
-      <input id="nombre" [(ngModel)]="newUsuario.nombre" name="nombre" required>
+  <!-- Edit User Modal -->
+  <div *ngIf="showEditModal" class="modal" (click)="closeEditModal()">
+    <div class="modal-content" (click)="$event.stopPropagation()">
+      <div class="modal-header">
+        <h2 class="modal-title">Editar Usuario</h2>
+        <button class="modal-close" (click)="closeEditModal()">&times;</button>
+      </div>
+      <div class="modal-body">
+        <form (ngSubmit)="updateUsuario()">
+          <div class="form-group">
+            <label for="nombre">Nombre Completo</label>
+            <input
+              id="nombre"
+              type="text"
+              [(ngModel)]="selectedUsuario.nombre"
+              name="nombre"
+              required
+              placeholder="Ej: Juan Pérez"
+            />
+          </div>
 
-      <label for="email">Email:</label>
-      <input id="email" [(ngModel)]="newUsuario.email" name="email" required>
+          <div class="form-group">
+            <label for="email">Correo Electrónico</label>
+            <input
+              id="email"
+              type="email"
+              [(ngModel)]="selectedUsuario.email"
+              name="email"
+              required
+              placeholder="usuario@email.com"
+            />
+          </div>
 
-      <label for="contrasena">Contraseña:</label>
-      <input id="contrasena" [(ngModel)]="newUsuario.contrasena" name="contrasena" required type="password">
+          <div class="form-group">
+            <label for="rol">Rol del Usuario</label>
+            <select id="rol" [(ngModel)]="selectedUsuario.rol" name="rol" required>
+              <option value="ADMIN">👑 Administrador</option>
+              <option value="USUARIO">📚 Estudiante</option>
+            </select>
+          </div>
 
-      <label for="rol">Rol:</label>
-      <select id="rol" [(ngModel)]="newUsuario.rol" name="rol" required>
-        <option value="ADMIN">Admin</option>
-        <option value="USUARIO">Usuario</option>
-      </select>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-cancel" (click)="closeEditModal()">
+              Cancelar
+            </button>
+            <button type="submit" class="btn btn-primary">
+              <span>💾</span>
+              <span>Guardar Cambios</span>
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
 
-      <button class="btn btn-success" type="submit">Agregar Usuario</button>
-    </form>
+  <!-- Add User Modal -->
+  <div *ngIf="showAddModal" class="modal" (click)="closeAddModal()">
+    <div class="modal-content" (click)="$event.stopPropagation()">
+      <div class="modal-header">
+        <h2 class="modal-title">Nuevo Usuario</h2>
+        <button class="modal-close" (click)="closeAddModal()">&times;</button>
+      </div>
+      <div class="modal-body">
+        <form (ngSubmit)="addUsuario()">
+          <div class="form-group">
+            <label for="newNombre">Nombre Completo</label>
+            <input
+              id="newNombre"
+              type="text"
+              [(ngModel)]="newUsuario.nombre"
+              name="newNombre"
+              required
+              placeholder="Ej: Juan Pérez"
+            />
+          </div>
+
+          <div class="form-group">
+            <label for="newEmail">Correo Electrónico</label>
+            <input
+              id="newEmail"
+              type="email"
+              [(ngModel)]="newUsuario.email"
+              name="newEmail"
+              required
+              placeholder="usuario@email.com"
+            />
+          </div>
+
+          <div class="form-group">
+            <label for="newContrasena">Contraseña</label>
+            <input
+              id="newContrasena"
+              type="password"
+              [(ngModel)]="newUsuario.contrasena"
+              name="newContrasena"
+              required
+              placeholder="Mínimo 6 caracteres"
+              minlength="6"
+            />
+          </div>
+
+          <div class="form-group">
+            <label for="newRol">Rol del Usuario</label>
+            <select id="newRol" [(ngModel)]="newUsuario.rol" name="newRol" required>
+              <option value="ADMIN">👑 Administrador</option>
+              <option value="USUARIO">📚 Estudiante</option>
+            </select>
+          </div>
+
+          <div class="modal-footer">
+            <button type="button" class="btn btn-cancel" (click)="closeAddModal()">
+              Cancelar
+            </button>
+            <button type="submit" class="btn btn-primary">
+              <span>✓</span>
+              <span>Crear Usuario</span>
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
   </div>
 </div>

@@ -1,0 +1,73 @@
+<div class="login-wrapper">
+  <div class="login-container">
+    <div class="login-card">
+      <!-- Logo -->
+      <div class="login-logo">
+        <span class="logo-icon">🎓</span>
+        <h1 class="logo-text">QuizMaster</h1>
+      </div>
+
+      <!-- Título -->
+      <h2 class="login-title">Iniciar Sesión</h2>
+      <p class="login-subtitle">Ingresa tus credenciales para continuar</p>
+
+      <!-- Mensaje de Error -->
+      <div *ngIf="errorMessage" class="alert alert-error">
+        <span class="alert-icon">⚠️</span>
+        <span>{{ errorMessage }}</span>
+      </div>
+
+      <!-- Formulario -->
+      <form (ngSubmit)="onSubmit()" class="login-form">
+        <div class="form-group">
+          <label for="email">
+            <span class="label-icon">📧</span>
+            Correo Electrónico
+          </label>
+          <input
+            type="email"
+            id="email"
+            [(ngModel)]="credentials.email"
+            name="email"
+            placeholder="tu@email.com"
+            required
+            [disabled]="isLoading"
+          />
+        </div>
+
+        <div class="form-group">
+          <label for="password">
+            <span class="label-icon">🔒</span>
+            Contraseña
+          </label>
+          <input
+            type="password"
+            id="password"
+            [(ngModel)]="credentials.contraseña"
+            name="password"
+            placeholder="••••••••"
+            required
+            [disabled]="isLoading"
+          />
+        </div>
+
+        <button 
+          type="submit" 
+          class="btn-login"
+          [disabled]="isLoading"
+        >
+          <span *ngIf="!isLoading">Iniciar Sesión</span>
+          <span *ngIf="isLoading" class="loading-spinner">
+            <span class="spinner"></span>
+            Iniciando...
+          </span>
+        </button>
+      </form>
+
+      <!-- Link a Registro -->
+      <div class="login-footer">
+        <p>¿No tienes cuenta? <a routerLink="/registro">Regístrate aquí</a></p>
+      </div>
+    </div>
+  </div>
+</div>

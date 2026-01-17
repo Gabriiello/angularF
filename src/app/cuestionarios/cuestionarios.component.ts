@@ -6,6 +6,7 @@ import { environment } from '../../environments/environment';
 
 
 
+
 @Component({
   selector: 'app-cuestionarios',
   standalone: true,
@@ -28,6 +29,7 @@ export class CuestionariosComponent implements OnInit {
   showAddRespuestaModal: boolean = false;
 
   constructor(private http: HttpClient) { }
+  
 
   ngOnInit() {
     this.loadCuestionarios();
@@ -93,11 +95,19 @@ export class CuestionariosComponent implements OnInit {
   }
 
   updatePregunta() {
-    this.http.put(`${environment.apiUrl}/preguntas/${this.selectedPregunta.id}`, this.selectedPregunta).subscribe(() => {
-      this.loadPreguntas(this.selectedCuestionario.id);
-      this.showEditPreguntaModal = false;
-    });
-  }
+  // Enviar solo los campos necesarios para evitar sobrescribir las respuestas
+  const preguntaToUpdate = {
+    id: this.selectedPregunta.id,
+    texto: this.selectedPregunta.texto,
+    cuestionario: this.selectedCuestionario
+    // Agrega aquí otros campos que necesites actualizar (tipo, puntos, etc.)
+  };
+  
+  this.http.put(`${environment.apiUrl}/preguntas/${this.selectedPregunta.id}`, preguntaToUpdate).subscribe(() => {
+    this.loadPreguntas(this.selectedCuestionario.id);
+    this.showEditPreguntaModal = false;
+  });
+}
 
   deletePregunta(id: number) {
     if (confirm('¿Está seguro de que desea eliminar esta pregunta?')) {

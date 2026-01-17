@@ -1,37 +1,134 @@
-<div class="container">
-    <h1 class="mb-4">{{ cuestionario?.titulo }}</h1>
-    <p class="lead mb-4">{{ cuestionario?.descripcion }}</p>
-  
-    <div *ngIf="cuestionario?.preguntas?.length">
-      <h2 class="mb-3">Preguntas</h2>
-      <form (ngSubmit)="submitCuestionario()">
-        <div class="card mb-3" *ngIf="currentPregunta">
-          <div class="card-header">
-            <h4>{{ currentPregunta.texto }}</h4>
-          </div>
-          <div class="card-body">
-            <div *ngIf="currentPregunta.respuestas?.length">
-              <div class="form-check" *ngFor="let respuesta of currentPregunta.respuestas">
-                <input
-                  class="form-check-input"
-                  type="radio"
-                  [name]="'pregunta-' + currentPregunta.id"
-                  [value]="respuesta.id"
-                  [checked]="isRespuestaSeleccionada(currentPregunta.id, respuesta.id)"
-                  (change)="selectRespuesta(currentPregunta.id, respuesta.id)">
-                <label class="form-check-label">
-                  {{ respuesta.texto }}
-                </label>
-              </div>
-            </div>
-          </div>
+<div class="quiz-wrapper">
+  <!-- Navbar -->
+  <nav class="quiz-navbar">
+    <div class="quiz-logo">
+      <span class="quiz-logo-icon">📝</span>
+      <span class="quiz-logo-text">{{ cuestionario?.titulo }}</span>
+    </div>
+    <div class="quiz-timer" *ngIf="timeElapsed">
+      <span class="timer-icon">⏱️</span>
+      <span>{{ formatTime(timeElapsed) }}</span>
+    </div>
+  </nav>
+
+  <div class="quiz-container">
+    <!-- Header -->
+    <div class="quiz-header">
+      <h1 class="quiz-title">{{ cuestionario?.titulo }}</h1>
+      <p class="quiz-description">{{ cuestionario?.descripcion }}</p>
+    </div>
+
+    <!-- Progress Bar -->
+    <div class="progress-section" *ngIf="cuestionario?.preguntas?.length">
+      <div class="progress-info">
+        <span class="progress-text">
+          Pregunta {{ currentPreguntaIndex + 1 }} de {{ cuestionario.preguntas.length }}
+        </span>
+        <span class="progress-text">{{ progressPercentage }}% Completado</span>
+      </div>
+      <div class="progress-bar-container">
+        <div class="progress-bar" [style.width.%]="progressPercentage"></div>
+      </div>
+    </div>
+
+    <!-- Question Card -->
+    <div class="question-card" *ngIf="currentPregunta">
+      <div class="question-header">
+        <div class="question-number">{{ currentPreguntaIndex + 1 }}</div>
+        <h2 class="question-text">{{ currentPregunta.texto }}</h2>
+      </div>
+
+      <div class="answers-list" *ngIf="currentPregunta.respuestas?.length">
+        <div class="answer-option" *ngFor="let respuesta of currentPregunta.respuestas; let i = index">
+          <input
+            class="answer-input"
+            type="radio"
+            [id]="'answer-' + respuesta.id"
+            [name]="'pregunta-' + currentPregunta.id"
+            [value]="respuesta.id"
+            [checked]="isRespuestaSeleccionada(currentPregunta.id, respuesta.id)"
+            (change)="selectRespuesta(currentPregunta.id, respuesta.id)"
+          />
+          <label class="answer-label" [for]="'answer-' + respuesta.id">
+            <span class="answer-marker">{{ getAnswerLetter(i) }}</span>
+            <span class="answer-text">{{ respuesta.texto }}</span>
+          </label>
         </div>
-        <div class="d-flex justify-content-between mt-4">
-          <button type="button" (click)="prevPregunta()" class="btn btn-secondary" [disabled]="currentPreguntaIndex === 0">Anterior</button>
-          <button type="button" (click)="nextPregunta()" class="btn btn-primary" [disabled]="currentPreguntaIndex >= (cuestionario?.preguntas?.length || 0) - 1">Siguiente</button>
-          <button type="submit" class="btn btn-success">Enviar Respuestas</button>
-        </div>
-      </form>
+      </div>
+    </div>
+
+    <!-- Navigation Buttons -->
+    <div class="navigation-buttons">
+      <button
+        type="button"
+        class="btn btn-secondary"
+        (click)="prevPregunta()"
+        [disabled]="currentPreguntaIndex === 0"
+      >
+        <span class="btn-arrow">←</span>
+        <span>Anterior</span>
+      </button>
+
+      <button
+        type="button"
+        class="btn btn-primary"
+        (click)="nextPregunta()"
+        [disabled]="currentPreguntaIndex >= (cuestionario?.preguntas?.length || 0) - 1"
+        *ngIf="currentPreguntaIndex < (cuestionario?.preguntas?.length || 0) - 1"
+      >
+        <span>Siguiente</span>
+        <span class="btn-arrow">→</span>
+      </button>
+
+      <button
+        type="button"
+        class="btn btn-success"
+        (click)="submitCuestionario()"
+        *ngIf="currentPreguntaIndex === (cuestionario?.preguntas?.length || 0) - 1"
+      >
+        <span>✓</span>
+        <span>Enviar Respuestas</span>
+      </button>
     </div>
   </div>
-  
+
+  <!-- Results Modal -->
+  <div class="results-modal" *ngIf="showResults">
+    <div class="results-content">
+      <div class="results-icon">{{ getResultIcon() }}</div>
+      <h2 class="results-title">{{ getResultTitle() }}</h2>
+      <div class="results-score">{{ score }}%</div>
+      <p class="results-message">{{ getResultMessage() }}</p>
+      
+      <div class="results-stats">
+        <div class="stat-item">
+          <div class="stat-value" style="color: var(--success);">{{ correctAnswers }}</div>
+          <div class="stat-label">Correctas</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-value" style="color: var(--danger);">{{ incorrectAnswers }}</div>
+          <div class="stat-label">Incorrectas</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-value" style="color: var(--primary);">{{ totalQuestions }}</div>
+          <div class="stat-label">Total</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-value" style="color: var(--warning);">{{ formatTime(timeElapsed) }}</div>
+          <div class="stat-label">Tiempo</div>
+        </div>
+      </div>
+
+      <div class="results-actions">
+        <button class="btn btn-primary" (click)="goToHome()">
+          <span>🏠</span>
+          <span>Volver al Inicio</span>
+        </button>
+        <button class="btn btn-secondary" (click)="retryQuiz()">
+          <span>🔄</span>
+          <span>Intentar de Nuevo</span>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

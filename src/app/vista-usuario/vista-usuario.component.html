@@ -1,11 +1,110 @@
-<div class="container">
-    <h1>Cuestionarios Disponibles</h1>
-    <div class="cuestionarios-grid">
-      <div class="cuestionario-cubo" *ngFor="let cuestionario of cuestionarios">
-        <h3>{{ cuestionario.titulo }}</h3>
-        <p>{{ cuestionario.descripcion }}</p>
-        <button (click)="empezarCuestionario(cuestionario.id)" class="btn btn-primary">Empezar Cuestionario</button>
+<div class="user-wrapper">
+  <!-- Navigation Bar -->
+  <nav class="user-navbar">
+    <div class="user-logo">
+      <span class="user-logo-icon">📚</span>
+      <span class="user-logo-text">QuizMaster</span>
+    </div>
+    <div class="user-profile">
+      <div class="user-avatar">👤</div>
+      <div class="user-info">
+        <span class="user-name">Usuario</span>
+        <span class="user-role">Estudiante</span>
+      </div>
+      <button class="btn-logout" (click)="logout()">Cerrar Sesión</button>
+    </div>
+  </nav>
+
+  <!-- Main Content -->
+  <div class="user-container">
+    <div class="user-header">
+      <h1 class="user-title">Cuestionarios Disponibles</h1>
+      <p class="user-subtitle">Explora y completa cuestionarios para mejorar tus conocimientos</p>
+    </div>
+
+    <!-- Stats Section -->
+    <div class="stats-section">
+      <div class="stat-card">
+        <div class="stat-icon">📝</div>
+        <div class="stat-value">{{ cuestionarios.length }}</div>
+        <div class="stat-label">Disponibles</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon">✅</div>
+        <div class="stat-value">0</div>
+        <div class="stat-label">Completados</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon">📊</div>
+        <div class="stat-value">0%</div>
+        <div class="stat-label">Progreso</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon">🏆</div>
+        <div class="stat-value">0</div>
+        <div class="stat-label">Puntos</div>
       </div>
     </div>
+
+    <!-- Search and Filter Section -->
+    <div class="search-filter-section">
+      <div class="search-box">
+        <input 
+          type="text" 
+          class="search-input" 
+          placeholder="Buscar cuestionarios..."
+          [(ngModel)]="searchTerm"
+          (input)="filterCuestionarios()"
+        />
+      </div>
+      <select class="filter-select" [(ngModel)]="selectedCategory" (change)="filterCuestionarios()">
+        <option value="">Todas las categorías</option>
+        <option value="matematicas">Matemáticas</option>
+        <option value="ciencias">Ciencias</option>
+        <option value="historia">Historia</option>
+        <option value="literatura">Literatura</option>
+      </select>
+      <select class="filter-select" [(ngModel)]="sortBy" (change)="filterCuestionarios()">
+        <option value="recent">Más recientes</option>
+        <option value="popular">Más populares</option>
+        <option value="title">Por título</option>
+      </select>
+    </div>
+
+    <!-- Cuestionarios Grid -->
+    <div class="cuestionarios-grid" *ngIf="filteredCuestionarios.length > 0">
+      <div class="cuestionario-card" *ngFor="let cuestionario of filteredCuestionarios">
+        <div class="cuestionario-header">
+          <div class="cuestionario-icon">{{ getCategoryIcon(cuestionario.titulo) }}</div>
+          <h3 class="cuestionario-title">{{ cuestionario.titulo }}</h3>
+        </div>
+        <div class="cuestionario-body">
+          <p class="cuestionario-description">{{ cuestionario.descripcion }}</p>
+          <div class="cuestionario-meta">
+            <div class="meta-item">
+              <span class="meta-icon">📋</span>
+              <span>{{cuestionario.Numpreguntas}}</span>
+            </div>
+            <div class="meta-item">
+              <span class="meta-icon">⏱️</span>
+              <span>~{{ getEstimatedTime(cuestionario) }} min</span>
+            </div>
+          </div>
+        </div>
+        <div class="cuestionario-footer">
+          <button class="btn-start" (click)="empezarCuestionario(cuestionario.id)">
+            <span>Comenzar Cuestionario</span>
+            <span class="btn-arrow">→</span>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Empty State -->
+    <div class="empty-state" *ngIf="filteredCuestionarios.length === 0">
+      <div class="empty-icon">🔍</div>
+      <h2 class="empty-title">No se encontraron cuestionarios</h2>
+      <p class="empty-text">Intenta con otros filtros o términos de búsqueda</p>
+    </div>
   </div>
-  
+</div>

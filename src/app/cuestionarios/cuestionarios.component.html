@@ -1,147 +1,341 @@
-<div class="container">
-    <h1>Administrar Cuestionarios</h1>
-  
-    <div class="add-cuestionario">
-      <h2>Agregar Nuevo Cuestionario</h2>
+<div class="cuestionarios-wrapper">
+  <!-- Navbar -->
+  <nav class="cuestionarios-navbar">
+    <div class="navbar-logo">
+      <span class="navbar-logo-icon">📝</span>
+      <span class="navbar-logo-text">Gestión de Cuestionarios</span>
+    </div>
+    <div class="navbar-actions">
+      <button class="btn-back" routerLink="/admin">
+        <span>←</span>
+        <span>Volver al Panel</span>
+      </button>
+    </div>
+  </nav>
+
+  <div class="container">
+    
+
+    <!-- Add New Cuestionario Section -->
+    <div class="add-section">
+      <h2 class="section-title">
+        <span class="section-icon">➕</span>
+        <span>Nuevo Cuestionario</span>
+      </h2>
       <form (ngSubmit)="addCuestionario()">
-        <div class="form-group">
-          <label for="titulo">Título:</label>
-          <input type="text" id="titulo" [(ngModel)]="newCuestionario.titulo" name="titulo" required>
+        <div class="form-grid">
+          <div class="form-group">
+            <label for="titulo">Título del Cuestionario</label>
+            <input
+              type="text"
+              id="titulo"
+              [(ngModel)]="newCuestionario.titulo"
+              name="titulo"
+              required
+              placeholder="Ej: Matemáticas Básicas"
+            />
+          </div>
+          <div class="form-group">
+            <label for="descripcion">Descripción</label>
+            <textarea
+              id="descripcion"
+              [(ngModel)]="newCuestionario.descripcion"
+              name="descripcion"
+              required
+              placeholder="Describe brevemente el contenido del cuestionario"
+            ></textarea>
+          </div>
         </div>
-        <div class="form-group">
-          <label for="descripcion">Descripción:</label>
-          <input type="text" id="descripcion" [(ngModel)]="newCuestionario.descripcion" name="descripcion" required>
-        </div>
-        <button type="submit" class="btn btn-primary">Agregar Cuestionario</button>
+        <button type="submit" class="btn btn-primary">
+          <span>✓</span>
+          <span>Crear Cuestionario</span>
+        </button>
       </form>
     </div>
-  
-    <h2>Lista de Cuestionarios</h2>
-    <table class="table table-bordered">
-      <thead>
-        <tr>
-          <th>Título</th>
-          <th>Descripción</th>
-          <th>Acciones</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let cuestionario of cuestionarios">
-          <td>{{ cuestionario.titulo }}</td>
-          <td>{{ cuestionario.descripcion }}</td>
-          <td>
-            <button (click)="editCuestionario(cuestionario)" class="btn btn-warning">Modificar</button>
-            <button (click)="deleteCuestionario(cuestionario.id)" class="btn btn-danger">Eliminar</button>
-          </td>
-        </tr>
-      </tbody>
-    </table>
-  
-    <!-- Modal para editar cuestionario -->
-    <div *ngIf="showEditModal" class="modal">
-      <div class="modal-content">
-        <span class="close" (click)="closeEditModal()">&times;</span>
-        <h2>Editar Cuestionario</h2>
+
+    <!-- List Section -->
+    <div class="list-section">
+      <h2 class="section-title">
+        <span class="section-icon">📋</span>
+        <span>Lista de Cuestionarios</span>
+      </h2>
+      <div class="table-container">
+        <table class="table">
+          <thead>
+            <tr>
+              <th>Título</th>
+              <th>Descripción</th>
+              <th>Preguntas</th>
+              <th>Acciones</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let cuestionario of cuestionarios">
+              <td><strong>{{ cuestionario.titulo }}</strong></td>
+              <td>{{ cuestionario.descripcion }}</td>
+              <td>{{ cuestionario.Numpreguntas}}</td>
+              <td>
+                <div class="table-actions">
+                  <button
+                    class="btn-icon btn-edit"
+                    (click)="editCuestionario(cuestionario)"
+                    title="Editar"
+                  >
+                    ✏️
+                  </button>
+                  <button
+                    class="btn-icon btn-delete"
+                    (click)="deleteCuestionario(cuestionario.id)"
+                    title="Eliminar"
+                  >
+                    🗑️
+                  </button>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- Edit Cuestionario Modal -->
+  <div *ngIf="showEditModal" class="modal" (click)="closeEditModal()">
+    <div class="modal-content" (click)="$event.stopPropagation()">
+      <div class="modal-header">
+        <h2 class="modal-title">Editar Cuestionario</h2>
+        <button class="modal-close" (click)="closeEditModal()">&times;</button>
+      </div>
+      <div class="modal-body">
         <form (ngSubmit)="updateCuestionario()">
           <div class="form-group">
-            <label for="editTitulo">Título:</label>
-            <input type="text" id="editTitulo" [(ngModel)]="selectedCuestionario.titulo" name="editTitulo" required>
+            <label for="editTitulo">Título</label>
+            <input
+              type="text"
+              id="editTitulo"
+              [(ngModel)]="selectedCuestionario.titulo"
+              name="editTitulo"
+              required
+            />
           </div>
           <div class="form-group">
-            <label for="editDescripcion">Descripción:</label>
-            <input type="text" id="editDescripcion" [(ngModel)]="selectedCuestionario.descripcion" name="editDescripcion" required>
+            <label for="editDescripcion">Descripción</label>
+            <textarea
+              id="editDescripcion"
+              [(ngModel)]="selectedCuestionario.descripcion"
+              name="editDescripcion"
+              required
+            ></textarea>
           </div>
-          <button type="submit" class="btn btn-primary">Guardar Cambios</button>
+          <button type="submit" class="btn btn-primary">
+            <span>💾</span>
+            <span>Guardar Cambios</span>
+          </button>
         </form>
-  
-        <h3>Preguntas del Cuestionario</h3>
-        <button (click)="showAddPreguntaModal = true" class="btn btn-success">Agregar Pregunta</button>
-        <table class="table table-bordered mt-3">
-          <thead>
-            <tr>
-              <th>Pregunta</th>
-              <th>Acciones</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr *ngFor="let pregunta of preguntas">
-              <td>{{ pregunta.texto }}</td>
-              <td>
-                <button (click)="editPregunta(pregunta)" class="btn btn-warning">Modificar</button>
-                <button (click)="deletePregunta(pregunta.id)" class="btn btn-danger">Eliminar</button>
-              </td>
-            </tr>
-          </tbody>
-        </table>
+
+        <!-- Preguntas Section -->
+        <div class="nested-list">
+          <div class="nested-header">
+            <h3 class="nested-title">Preguntas del Cuestionario</h3>
+            <button class="btn btn-success" (click)="showAddPreguntaModal = true">
+              <span>➕</span>
+              <span>Nueva Pregunta</span>
+            </button>
+          </div>
+
+          <div *ngIf="preguntas.length > 0" class="table-container">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th>Pregunta</th>
+                  <th>Respuestas</th>
+                  <th>Acciones</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let pregunta of preguntas">
+                  <td>{{ pregunta.texto }}</td>
+                  <td>{{ pregunta.respuestas?.length || 0 }}</td>
+                  <td>
+                    <div class="table-actions">
+                      <button
+                        class="btn-icon btn-edit"
+                        (click)="editPregunta(pregunta)"
+                        title="Editar"
+                      >
+                        ✏️
+                      </button>
+                      <button
+                        class="btn-icon btn-delete"
+                        (click)="deletePregunta(pregunta.id)"
+                        title="Eliminar"
+                      >
+                        🗑️
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div *ngIf="preguntas.length === 0" class="empty-state">
+            <div class="empty-icon">❓</div>
+            <p class="empty-text">No hay preguntas aún. Agrega tu primera pregunta.</p>
+          </div>
+        </div>
       </div>
     </div>
-  
-    <!-- Modal para agregar nueva pregunta -->
-<div *ngIf="showAddPreguntaModal" class="modal">
-    <div class="modal-content">
-      <span class="close" (click)="closeAddPreguntaModal()">&times;</span>
-      <h2>Agregar Nueva Pregunta</h2>
-      <form (ngSubmit)="addPregunta()">
-        <div class="form-group">
-          <label for="nuevaPregunta">Nueva Pregunta:</label>
-          <input type="text" id="nuevaPregunta" [(ngModel)]="newPregunta.texto" name="nuevaPregunta" required>
-        </div>
-        <button type="submit" class="btn btn-primary">Agregar Pregunta</button>
-      </form>
+  </div>
+
+  <!-- Add Pregunta Modal -->
+  <div *ngIf="showAddPreguntaModal" class="modal" (click)="closeAddPreguntaModal()">
+    <div class="modal-content" (click)="$event.stopPropagation()">
+      <div class="modal-header">
+        <h2 class="modal-title">Nueva Pregunta</h2>
+        <button class="modal-close" (click)="closeAddPreguntaModal()">&times;</button>
+      </div>
+      <div class="modal-body">
+        <form (ngSubmit)="addPregunta()">
+          <div class="form-group">
+            <label for="nuevaPregunta">Texto de la Pregunta</label>
+            <textarea
+              id="nuevaPregunta"
+              [(ngModel)]="newPregunta.texto"
+              name="nuevaPregunta"
+              required
+              placeholder="Escribe aquí la pregunta"
+            ></textarea>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-danger" (click)="closeAddPreguntaModal()">
+              Cancelar
+            </button>
+            <button type="submit" class="btn btn-primary">
+              <span>✓</span>
+              <span>Agregar Pregunta</span>
+            </button>
+          </div>
+        </form>
+      </div>
     </div>
   </div>
-  
-    <!-- Modal para editar pregunta -->
-    <div *ngIf="showEditPreguntaModal" class="modal">
-      <div class="modal-content">
-        <span class="close" (click)="closeEditPreguntaModal()">&times;</span>
-        <h2>Editar Pregunta</h2>
+
+  <!-- Edit Pregunta Modal -->
+  <div *ngIf="showEditPreguntaModal" class="modal" (click)="closeEditPreguntaModal()">
+    <div class="modal-content" (click)="$event.stopPropagation()">
+      <div class="modal-header">
+        <h2 class="modal-title">Editar Pregunta</h2>
+        <button class="modal-close" (click)="closeEditPreguntaModal()">&times;</button>
+      </div>
+      <div class="modal-body">
         <form (ngSubmit)="updatePregunta()">
           <div class="form-group">
-            <label for="editPreguntaTexto">Pregunta:</label>
-            <input type="text" id="editPreguntaTexto" [(ngModel)]="selectedPregunta.texto" name="editPreguntaTexto" required>
+            <label for="editPreguntaTexto">Texto de la Pregunta</label>
+            <textarea
+              id="editPreguntaTexto"
+              [(ngModel)]="selectedPregunta.texto"
+              name="editPreguntaTexto"
+              required
+            ></textarea>
           </div>
-          <button type="submit" class="btn btn-primary">Guardar Cambios</button>
+          <button type="submit" class="btn btn-primary">
+            <span>💾</span>
+            <span>Guardar Cambios</span>
+          </button>
         </form>
-  
-        <h3>Respuestas de la Pregunta</h3>
-        <button (click)="showAddRespuestaModal = true" class="btn btn-success">Agregar Respuesta</button>
-        <table class="table table-bordered mt-3">
-          <thead>
-            <tr>
-              <th>Respuesta</th>
-              <th>Correcta</th>
-              <th>Acciones</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr *ngFor="let respuesta of respuestas">
-              <td>{{ respuesta.texto }}</td>
-              <td>{{ respuesta.esCorrecta ? 'Sí' : 'No' }}</td>
-              <td>
-                <button (click)="deleteRespuesta(respuesta.id)" class="btn btn-danger">Eliminar</button>
-              </td>
-            </tr>
-          </tbody>
-        </table>
+
+        <!-- Respuestas Section -->
+        <div class="nested-list">
+          <div class="nested-header">
+            <h3 class="nested-title">Respuestas de la Pregunta</h3>
+            <button class="btn btn-success" (click)="showAddRespuestaModal = true">
+              <span>➕</span>
+              <span>Nueva Respuesta</span>
+            </button>
+          </div>
+
+          <div *ngIf="respuestas.length > 0" class="table-container">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th>Respuesta</th>
+                  <th>¿Es Correcta?</th>
+                  <th>Acciones</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let respuesta of respuestas">
+                  <td>{{ respuesta.texto }}</td>
+                  <td>
+                    <span *ngIf="respuesta.esCorrecta" style="color: var(--success);">✓ Sí</span>
+                    <span *ngIf="!respuesta.esCorrecta" style="color: var(--gray);">✗ No</span>
+                  </td>
+                  <td>
+                    <div class="table-actions">
+                      <button
+                        class="btn-icon btn-delete"
+                        (click)="deleteRespuesta(respuesta.id)"
+                        title="Eliminar"
+                      >
+                        🗑️
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div *ngIf="respuestas.length === 0" class="empty-state">
+            <div class="empty-icon">💬</div>
+            <p class="empty-text">No hay respuestas aún. Agrega opciones de respuesta.</p>
+          </div>
+        </div>
       </div>
     </div>
-  
-   <!-- Modal para agregar nueva respuesta -->
-<div *ngIf="showAddRespuestaModal" class="modal">
-    <div class="modal-content">
-      <span class="close" (click)="closeAddRespuestaModal()">&times;</span>
-      <h2>Agregar Nueva Respuesta</h2>
-      <form (ngSubmit)="addRespuesta()">
-        <div class="form-group">
-          <label for="respuestaTexto">Texto:</label>
-          <input type="text" id="respuestaTexto" [(ngModel)]="newRespuesta.texto" name="respuestaTexto" required>
-        </div>
-        <div class="form-group">
-          <label for="respuestaCorrecta">¿Es Correcta?</label>
-          <input type="checkbox" id="respuestaCorrecta" [(ngModel)]="newRespuesta.esCorrecta" name="respuestaCorrecta">
-        </div>
-        <button type="submit" class="btn btn-primary">Agregar Respuesta</button>
-      </form>
+  </div>
+
+  <!-- Add Respuesta Modal -->
+  <div *ngIf="showAddRespuestaModal" class="modal" (click)="closeAddRespuestaModal()">
+    <div class="modal-content" (click)="$event.stopPropagation()">
+      <div class="modal-header">
+        <h2 class="modal-title">Nueva Respuesta</h2>
+        <button class="modal-close" (click)="closeAddRespuestaModal()">&times;</button>
+      </div>
+      <div class="modal-body">
+        <form (ngSubmit)="addRespuesta()">
+          <div class="form-group">
+            <label for="respuestaTexto">Texto de la Respuesta</label>
+            <input
+              type="text"
+              id="respuestaTexto"
+              [(ngModel)]="newRespuesta.texto"
+              name="respuestaTexto"
+              required
+              placeholder="Escribe la respuesta"
+            />
+          </div>
+          <div class="checkbox-group">
+            <input
+              type="checkbox"
+              id="respuestaCorrecta"
+              [(ngModel)]="newRespuesta.esCorrecta"
+              name="respuestaCorrecta"
+            />
+            <label for="respuestaCorrecta">¿Esta es la respuesta correcta?</label>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-danger" (click)="closeAddRespuestaModal()">
+              Cancelar
+            </button>
+            <button type="submit" class="btn btn-primary">
+              <span>✓</span>
+              <span>Agregar Respuesta</span>
+            </button>
+          </div>
+        </form>
+      </div>
     </div>
   </div>
+</div>

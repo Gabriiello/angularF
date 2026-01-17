@@ -1,9 +1,63 @@
-<div class="admin-container">
-    <h1>Panel de Administración</h1>
-    <div class="buttons-container">
-      <button (click)="navigateTo('/admin/usuarios')">Administrar Usuarios</button>
-      <button (click)="navigateTo('/admin/metricas')">Ver Métricas</button>
-      <button (click)="navigateTo('/admin/cuestionarios')">Administrar Cuestionarios</button>
+<div class="admin-wrapper">
+  <!-- Navigation Bar -->
+  <nav class="admin-navbar">
+    <div class="admin-logo">
+      <span class="admin-logo-icon">📚</span>
+      <span class="admin-logo-text">QuizMaster</span>
+    </div>
+    <div class="admin-user">
+      <div class="admin-user-avatar">👤</div>
+      <span>Administrador</span>
+      <button class="btn-logout" (click)="logout()">Cerrar Sesión</button>
+    </div>
+  </nav>
+
+  <!-- Main Content -->
+  <div class="admin-container">
+    <div class="admin-header">
+      <h1 class="admin-title">Panel de Administración</h1>
+      <p class="admin-subtitle">Gestiona todos los aspectos de la plataforma desde aquí</p>
+    </div>
+
+    <div class="admin-grid">
+      <!-- Usuarios Card -->
+      <div class="admin-card" (click)="navigateTo('/admin/usuarios')">
+        <div class="admin-card-icon">👥</div>
+        <h2 class="admin-card-title">Gestión de Usuarios</h2>
+        <p class="admin-card-description">
+          Administra cuentas de usuario, asigna roles y controla permisos de acceso
+        </p>
+        <button class="admin-card-button">
+          <span>Administrar Usuarios</span>
+          <span class="admin-card-arrow">→</span>
+        </button>
+      </div>
+
+      <!-- Métricas Card -->
+      <div class="admin-card" (click)="navigateTo('/admin/metricas')">
+        <div class="admin-card-icon">📊</div>
+        <h2 class="admin-card-title">Métricas y Análisis</h2>
+        <p class="admin-card-description">
+          Visualiza estadísticas detalladas sobre el desempeño y progreso de los usuarios
+        </p>
+        <button class="admin-card-button">
+          <span>Ver Métricas</span>
+          <span class="admin-card-arrow">→</span>
+        </button>
+      </div>
+
+      <!-- Cuestionarios Card -->
+      <div class="admin-card" (click)="navigateTo('/cuestionarios')">
+        <div class="admin-card-icon">📝</div>
+        <h2 class="admin-card-title">Gestión de Cuestionarios</h2>
+        <p class="admin-card-description">
+          Crea, edita y administra cuestionarios, preguntas y respuestas
+        </p>
+        <button class="admin-card-button">
+          <span>Administrar Cuestionarios</span>
+          <span class="admin-card-arrow">→</span>
+        </button>
+      </div>
     </div>
   </div>
-  
+</div>
